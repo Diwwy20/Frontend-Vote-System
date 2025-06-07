@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 interface ProtectedRouteProps {
@@ -11,25 +11,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   redirectTo = "/login",
 }) => {
-  const { user, isLoading, isAuthenticated } = useAuth();
-  const location = useLocation();
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
-  // ถ้าไม่ได้ login หรือไม่มี user data ให้ redirect ไป login
-  if (!isAuthenticated || !user) {
-    return (
-      <Navigate to={redirectTo} replace state={{ from: location.pathname }} />
-    );
+  if (!user) {
+    return <Navigate to={redirectTo} replace />;
   }
 
   return <>{children}</>;
