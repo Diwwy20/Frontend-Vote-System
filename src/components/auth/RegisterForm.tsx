@@ -5,7 +5,6 @@ import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import type { RegisterFormData } from "@/types/auth";
 import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/input";
-import { CheckboxField } from "../common/CheckboxComponent";
 import { SubmitButton } from "../common/SubmitButton";
 
 const RegisterForm: React.FC = () => {

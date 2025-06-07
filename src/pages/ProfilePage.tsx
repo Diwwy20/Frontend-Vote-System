@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Header from "@/layout/Header";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { updateProfile, changePassword } from "@/services/auth/authService";
 import { useAuth } from "@/hooks/useAuth";
 import {

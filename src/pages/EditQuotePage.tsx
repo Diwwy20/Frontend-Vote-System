@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { SubmitButton } from "@/components/common/SubmitButton";
 import { useQuoteEdit } from "@/hooks/useQuote";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 interface EditQuoteFormData {
   content: string;

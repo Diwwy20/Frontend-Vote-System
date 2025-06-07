@@ -11,7 +11,6 @@ import {
 import {
   Moon,
   Sun,
-  Globe,
   User,
   LogOut,
   Quote,
