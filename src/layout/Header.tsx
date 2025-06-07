@@ -31,19 +31,19 @@ const Header: React.FC = () => {
       path: "/",
       label: "Browse Quotes",
       icon: Quote,
-      public: true, // สามารถเข้าได้โดยไม่ต้อง login
+      public: true,
     },
     {
       path: "/dashboard",
       label: "Dashboard",
       icon: LayoutDashboard,
-      public: false, // ต้อง login ก่อน
+      public: false,
     },
     {
       path: "/add-quote",
       label: "Add Quote",
       icon: Plus,
-      public: false, // ต้อง login ก่อน
+      public: false,
     },
   ];
 
@@ -58,6 +58,11 @@ const Header: React.FC = () => {
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  // เพิ่ม handler สำหรับ logout เพื่อป้องกัน navigation issues
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -128,7 +133,7 @@ const Header: React.FC = () => {
                       <img
                         src={user.avatar}
                         alt={user.name}
-                        className="w-7 h-7 rounded-full"
+                        className="w-7 h-7 rounded-full object-cover"
                       />
                     ) : (
                       <User className="w-4 h-4 text-white" />
@@ -146,7 +151,7 @@ const Header: React.FC = () => {
                       <img
                         src={user.avatar}
                         alt={user.name}
-                        className="w-8 h-8 rounded-full"
+                        className="w-8 h-8 rounded-full object-cover"
                       />
                     ) : (
                       <User className="w-4 h-4 text-white" />
@@ -154,19 +159,25 @@ const Header: React.FC = () => {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-medium">{user.name}</span>
-                    <span className="text-xs text-gray-500">{user.email}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {user.email}
+                    </span>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <Link to="/profile">
-                  <DropdownMenuItem className="flex items-center space-x-2 cursor-pointer">
+                {/* ใช้ Link แบบปกติแทน DropdownMenuItem wrapper */}
+                <DropdownMenuItem asChild>
+                  <Link
+                    to="/profile"
+                    className="flex items-center space-x-2 cursor-pointer w-full"
+                  >
                     <User className="w-4 h-4" />
                     <span>Profile</span>
-                  </DropdownMenuItem>
-                </Link>
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="flex items-center space-x-2 cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
                 >
                   <LogOut className="w-4 h-4" />

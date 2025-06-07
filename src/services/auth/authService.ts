@@ -53,7 +53,6 @@ export const login = async (data: LoginData): Promise<AuthResponse> => {
 
 export const register = async (data: RegisterData): Promise<AuthResponse> => {
     try {
-      console.log("Data Service: ", data);
       
         const response = await api.post('/auth/register', data);
         return response.data;

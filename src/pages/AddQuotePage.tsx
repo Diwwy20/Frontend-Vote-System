@@ -109,7 +109,6 @@ const AddQuotePage: React.FC = () => {
         navigate("/");
       }, 2000);
     } catch (error) {
-      console.error("Error creating quote:", error);
       setSubmitStatus("error");
       setTimeout(() => setSubmitStatus("idle"), 3000);
     }

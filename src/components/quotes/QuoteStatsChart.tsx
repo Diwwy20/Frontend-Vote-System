@@ -27,9 +27,6 @@ const QuoteStatsChart: React.FC = () => {
     isLoadingTopQuotes,
   } = useDashboardData();
 
-  console.log("Personal Summary: ", personalSummary);
-  console.log("Top Voted: ", topVotedQuotes);
-
   // Transform personalSummary category_distribution to chart data
   const getCategoryData = () => {
     if (!personalSummary?.category_distribution) {

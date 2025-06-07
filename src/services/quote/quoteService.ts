@@ -161,7 +161,6 @@ export const getAllQuotes = async (filters: QuoteFilters = {}): Promise<QuoteRes
     const response = await api.get(url);
     return response.data;
   } catch (error: any) {
-    console.error('Error in getAllQuotes:', error.response?.data || error.message);
     throw new Error(error.response?.data?.message || 'Failed to fetch quotes');
   }
 };

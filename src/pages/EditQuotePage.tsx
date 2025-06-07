@@ -87,14 +87,9 @@ const EditQuotePage: React.FC = () => {
   const watchedCategory = watch("category");
   const watchedAuthor = watch("author");
 
-  console.log("WatchedCategory: ", watchedCategory);
-  console.log("Quote data: ", quote);
-
   // Load quote data และ populate form เมื่อข้อมูลโหลดเสร็จ
   useEffect(() => {
     if (quote) {
-      console.log("Setting form values:", quote);
-
       // ใช้ setTimeout เพื่อให้แน่ใจว่า component render เสร็จแล้ว
       setTimeout(() => {
         reset({
@@ -135,9 +130,7 @@ const EditQuotePage: React.FC = () => {
       setTimeout(() => {
         navigate("/");
       }, 1000);
-    } catch (error) {
-      console.error("Error updating quote:", error);
-    }
+    } catch (error) {}
   };
 
   const addTag = () => {
@@ -340,12 +333,10 @@ const EditQuotePage: React.FC = () => {
                   control={control}
                   rules={{ required: "Category is required" }}
                   render={({ field }) => {
-                    console.log("Controller field value:", field.value);
                     return (
                       <Select
                         value={field.value || ""}
                         onValueChange={(value) => {
-                          console.log("Select onValueChange:", value);
                           field.onChange(value);
                         }}
                       >

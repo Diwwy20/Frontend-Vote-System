@@ -8,6 +8,7 @@ import EditQuotePage from "./pages/EditQuotePage";
 import ProfilePage from "./pages/ProfilePage";
 import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
   return (
@@ -66,6 +67,7 @@ const App = () => {
       />
 
       <Route path="/quote/list" element={<QuoteListPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

@@ -47,6 +47,7 @@ import type { QuoteFilters } from "@/services/quote/quoteService";
 import React, { useMemo, useState, useEffect } from "react";
 import Header from "@/layout/Header";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const CATEGORIES = [
   "all",
@@ -79,7 +80,6 @@ const QuoteListPage: React.FC = () => {
   const [deleteQuoteId, setDeleteQuoteId] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Debounce search เพื่อลด API calls
   useEffect(() => {
     if (searchTerm) {
       setIsSearching(true);
@@ -90,7 +90,6 @@ const QuoteListPage: React.FC = () => {
     }
   }, [searchTerm]);
 
-  // สร้าง filters object
   const filters: QuoteFilters = useMemo(
     () => ({
       category: selectedCategory === "all" ? undefined : selectedCategory,
@@ -103,7 +102,6 @@ const QuoteListPage: React.FC = () => {
     [selectedCategory, searchTerm, sortBy, page, limit]
   );
 
-  // ใช้ hook สำหรับจัดการ quotes
   const {
     quotes,
     pagination,
@@ -124,28 +122,24 @@ const QuoteListPage: React.FC = () => {
     getVoteStatus,
   } = useQuoteUtils();
 
-  // ฟังก์ชันเช็คว่าคำคมเป็นของตัวเองหรือไม่
   const isOwnQuote = (quote: any) => {
     return user && quote.user_id === user.id;
   };
 
-  //   // ✅ Updated handleVote function
   const handleVote = async (quote: any) => {
     if (!user) {
-      alert("Please login to vote");
+      toast.error("Please log in before voting on a quote.");
       return;
     }
 
     try {
       const isVoted = hasUserVoted(quote);
 
-      // ✅ ถ้ายังไม่ได้โหวต และต้องการโหวต
       if (!isVoted) {
-        // เช็คว่าโหวตคำคมอื่นอยู่หรือไม่
+        ม่;
         const hasVotedOther = hasVotedOtherQuote(quotes, quote.id);
 
         if (hasVotedOther) {
-          // หาคำคมที่โหวตอยู่
           const currentVotedQuote = findCurrentVotedQuote(quotes);
 
           alert(
@@ -158,7 +152,6 @@ const QuoteListPage: React.FC = () => {
         }
       }
 
-      // ✅ ดำเนินการโหวต
       console.log("🔥 About to vote:", { quoteId: quote.id, isVoted });
       await vote(quote);
     } catch (error) {
@@ -176,7 +169,6 @@ const QuoteListPage: React.FC = () => {
     try {
       await deleteQuote(deleteQuoteId);
       setDeleteQuoteId(null);
-      // Refetch quotes to update the list
       refetchQuotes();
     } catch (error) {
       console.error("Delete error:", error);
@@ -206,7 +198,6 @@ const QuoteListPage: React.FC = () => {
     ? page < Math.ceil(pagination.total / pagination.limit)
     : false;
 
-  // Reset page when filters change
   const handleFilterChange = (newFilters: any) => {
     setPage(1);
     if (newFilters.category !== undefined) {
@@ -221,7 +212,6 @@ const QuoteListPage: React.FC = () => {
     if (newFilters.sortBy !== undefined) setSortBy(newFilters.sortBy);
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setSearchTerm("");
     setSelectedCategory("all");
@@ -229,7 +219,6 @@ const QuoteListPage: React.FC = () => {
     setPage(1);
   };
 
-  // Check if filters are active
   const hasActiveFilters =
     searchTerm || selectedCategory !== "all" || sortBy !== "vote_count";
 
@@ -534,7 +523,7 @@ const QuoteListPage: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             onClick={() => handleVote(quote)}
-                            disabled={!user || isVoting}
+                            disabled={isVoting} // ✅ เอา !user ออก เหลือแค่ isVoting
                             className={`cursor-pointer flex items-center space-x-2 transition-all duration-200 hover:scale-110 ${
                               isVoted
                                 ? "text-red-500 hover:text-red-600"
@@ -543,7 +532,9 @@ const QuoteListPage: React.FC = () => {
                                 : "text-gray-500 hover:text-red-500"
                             }`}
                             title={
-                              voteStatus.hasVotedOther
+                              !user
+                                ? "กรุณาเข้าสู่ระบบเพื่อโหวต" // ✅ เพิ่ม tooltip สำหรับคนที่ไม่ได้ login
+                                : voteStatus.hasVotedOther
                                 ? "You have already voted for another quote. Remove your current vote first."
                                 : voteStatus.voteButtonText
                             }
@@ -593,6 +584,7 @@ const QuoteListPage: React.FC = () => {
                             <div className="flex -space-x-2">
                               {quote.voted_users.slice(0, 3).map((voter) => (
                                 <img
+                                  key={voter.user_id} // ✅ เพิ่ม key prop
                                   src={
                                     voter.user_avatar ||
                                     "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -608,18 +600,6 @@ const QuoteListPage: React.FC = () => {
                               )}
                             </div>
                           </div>
-                        )}
-
-                        {!user && (
-                          <Link to="/login">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="text-xs text-blue-500 hover:text-blue-600"
-                            >
-                              Login to vote
-                            </Button>
-                          </Link>
                         )}
                       </div>
                     </CardFooter>

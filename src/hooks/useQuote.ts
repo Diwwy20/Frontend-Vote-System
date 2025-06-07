@@ -101,11 +101,9 @@ export const useQuoteActions = () => {
   // ✅ Vote Mutation
   const voteMutation = useMutation({
     mutationFn: ({ quoteId, voteValue }: { quoteId: string; voteValue: 1 | -1 }) => {
-      console.log('🔥 voteMutation called:', { quoteId, voteValue });
       return voteQuote(quoteId, voteValue);
     },
     onSuccess: (data, { voteValue }) => {
-      console.log('🔥 voteMutation onSuccess:', data);
       
       if (data.success) {
         queryClient.invalidateQueries({ queryKey: ['quotes'] });
@@ -120,7 +118,6 @@ export const useQuoteActions = () => {
       }
     },
     onError: (error: Error) => {
-      console.log('🔥 voteMutation onError:', error);
       toast.error(error.message || 'Failed to vote');
     },
   });
@@ -132,19 +129,15 @@ export const useQuoteActions = () => {
     }
 
     try {
-      console.log('🔥 handleVote called:', { quoteId: quote.id, user: user.id });
       
       const hasUserVoted = quote.voted_users.some(voter => voter.user_id === Number(user.id));
       
       if (hasUserVoted) {
-        console.log('🔥 User has voted, removing vote (sending -1)');
         await voteMutation.mutateAsync({ quoteId: quote.id, voteValue: -1 });
       } else {
-        console.log('🔥 User hasn\'t voted, adding vote (sending 1)');
         await voteMutation.mutateAsync({ quoteId: quote.id, voteValue: 1 });
       }
     } catch (error) {
-      console.error('Vote error:', error);
       throw error;
     }
   };
