@@ -158,8 +158,6 @@ export const getAllQuotes = async (filters: QuoteFilters = {}): Promise<QuoteRes
     const queryString = params.toString();
     const url = queryString ? `/quote/all?${queryString}` : '/quote/all';
     
-    console.log('Fetching quotes with URL:', url); // Debug log
-    
     const response = await api.get(url);
     return response.data;
   } catch (error: any) {
