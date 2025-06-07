@@ -136,7 +136,6 @@ const QuoteListPage: React.FC = () => {
       const isVoted = hasUserVoted(quote);
 
       if (!isVoted) {
-        ม่;
         const hasVotedOther = hasVotedOtherQuote(quotes, quote.id);
 
         if (hasVotedOther) {
