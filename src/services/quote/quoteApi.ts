@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_QUOTE_ENDPOINT || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_QUOTE_ENDPOINT || 'https://backend-quote-vote-system-production.up.railway.app/api';
 
 // Create axios instance
 export const api = axios.create({

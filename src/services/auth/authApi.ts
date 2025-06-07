@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const AUTH_API_BASE_URL = import.meta.env.VITE_API_USER_ENDPOINT || 'http://localhost:4000';
+const AUTH_API_BASE_URL = import.meta.env.VITE_API_USER_ENDPOINT || 'https://backend-auth-system-production.up.railway.app/api';
 
 export const api = axios.create({
   baseURL: AUTH_API_BASE_URL,
