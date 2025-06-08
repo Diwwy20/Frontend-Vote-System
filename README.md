@@ -1,54 +1,48 @@
-# React + TypeScript + Vite
+# 🧠 Quote Hub Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Quote Hub** is a fun and interactive web application that allows users to create, share, and vote on various types of quotes—whether funny, inspirational, or thought-provoking. In addition to exploring quotes from other users, each user can access their **personal dashboard** to see:
 
-Currently, two official plugins are available:
+- 📌 The total number of quotes they've submitted  
+- 👍 How many total votes their quotes have received  
+- 🏆 Their current ranking compared to other users  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- ✍️ Create and submit your own quotes  
+- 🌐 Browse quotes from all users or filter by most voted  
+- ❤️ Vote for your favorite quotes  
+- 📊 View your personalized dashboard with quote stats and rankings  
+- 👤 Register and log in to manage your quotes  
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠 Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Frontend**: React + Vite + TypeScript  
+- **UI**: TailwindCSS + shadcn/ui  
+- **Forms**: react-hook-form   
+- **Backend**: NestJS   
+- **Database**: PostgreSQL (hosted on Neon)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+---
+
+## 📦 How to Run the Project
+
+Follow the steps below to run the frontend locally:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/Diwwy20/Frontend-Vote-System
+
+# 2. Install dependencies
+npm install or npm install --legacy-peer-deps
+
+# 3. Create a `.env` file in the root directory and add the following environment variables:
+
+VITE_API_USER_ENDPOINT=https://backend-auth-system-production.up.railway.app/api
+VITE_API_QUOTE_ENDPOINT=https://backend-quote-vote-system-production.up.railway.app/api
+
+# 4. Start the development server (http://localhost:5173)
+npm run dev
