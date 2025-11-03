@@ -5,8 +5,9 @@ export const usePersonalSummary = () => {
   return useQuery({
     queryKey: ['personal-summary'],
     queryFn: getPersonalSummary,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000, 
     refetchOnWindowFocus: false,
+    refetchOnMount: 'always'
   });
 };
 
@@ -14,8 +15,9 @@ export const useTopVotedQuotes = () => {
   return useQuery({
     queryKey: ['top-voted-quotes'],
     queryFn: getTopVotedQuotes,
-    staleTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 10 * 60 * 1000, 
     refetchOnWindowFocus: false,
+    refetchOnMount: 'always'
   });
 };
 
