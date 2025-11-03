@@ -40,9 +40,17 @@ git clone https://github.com/Diwwy20/Frontend-Vote-System
 npm install or npm install --legacy-peer-deps
 
 # 3. Create a `.env` file in the root directory and add the following environment variables:
-
 VITE_API_USER_ENDPOINT=https://backend-auth-system-production.up.railway.app/api
 VITE_API_QUOTE_ENDPOINT=https://backend-quote-vote-system-production.up.railway.app/api
 
 # 4. Start the development server (http://localhost:5173)
 npm run dev
+```
+
+## 🌍 Live Demo
+
+You can try Quote Hub instantly — no setup needed!
+👉 https://vote-quote.netlify.app/
+
+The app is fully deployed and ready to explore.
+You can create an account, browse quotes, and view your personal dashboard right away.
