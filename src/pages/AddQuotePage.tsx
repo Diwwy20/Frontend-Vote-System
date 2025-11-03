@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -51,13 +52,13 @@ const CATEGORIES = [
 
 const AddQuotePage: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [currentTag, setCurrentTag] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
 
-  // ใช้ useQuoteActions hook แทน mock API
   const { createQuote, isCreating, createError } = useQuoteActions();
 
   const {
@@ -85,27 +86,25 @@ const AddQuotePage: React.FC = () => {
     setSubmitStatus("idle");
 
     try {
-      // เตรียมข้อมูลสำหรับส่งไป API
       const quoteData: CreateQuoteData = {
         content: data.content,
         author: data.author,
         category: data.category,
-        tags: tags, // ใช้ tags state แทน data.tags
+        tags: tags, 
       };
 
-      // เรียกใช้ createQuote function จาก useQuoteActions
       await createQuote(quoteData);
 
-      // Reset form หลังจากสร้างสำเร็จ
+      await queryClient.invalidateQueries({ queryKey: ['personal-summary'] });
+      await queryClient.invalidateQueries({ queryKey: ['top-voted-quotes'] });
+      
       reset();
       setTags([]);
       setCurrentTag("");
       setSubmitStatus("success");
 
-      // Auto hide success message หลังจาก 3 วินาที
       setTimeout(() => {
         setSubmitStatus("idle");
-        // Navigate กลับไปหน้าหลักหลังจากสร้างสำเร็จ
         navigate("/");
       }, 2000);
     } catch (error) {
