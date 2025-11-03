@@ -24,6 +24,10 @@ const DashboardPage: React.FC = () => {
   const { personalSummary, hasError, refetchAll, isLoadingPersonal } =
     useDashboardData();
 
+  useEffect(() => {
+    refetchAll();
+  }, []);
+  
   const formatRanking = (rank: number | null | undefined) => {
     if (rank === null || rank === undefined) return "Unranked";
     return `#${rank}`;
