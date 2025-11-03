@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
+import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -51,10 +52,10 @@ const CATEGORIES = [
 const EditQuotePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [currentTag, setCurrentTag] = useState("");
   const [tags, setTags] = useState<string[]>([]);
 
-  // ใช้ custom hook สำหรับจัดการข้อมูล quote
   const {
     quote,
     isLoading: isLoadingQuote,
@@ -87,10 +88,8 @@ const EditQuotePage: React.FC = () => {
   const watchedCategory = watch("category");
   const watchedAuthor = watch("author");
 
-  // Load quote data และ populate form เมื่อข้อมูลโหลดเสร็จ
   useEffect(() => {
     if (quote) {
-      // ใช้ setTimeout เพื่อให้แน่ใจว่า component render เสร็จแล้ว
       setTimeout(() => {
         reset({
           content: quote.content || "",
@@ -103,7 +102,6 @@ const EditQuotePage: React.FC = () => {
     }
   }, [quote, reset]);
 
-  // Reset form เมื่อเริ่มต้น
   useEffect(() => {
     return () => {
       reset();
@@ -127,6 +125,10 @@ const EditQuotePage: React.FC = () => {
       };
 
       await updateQuote(id, updateData);
+
+      await queryClient.invalidateQueries({ queryKey: ['personal-summary'] });
+      await queryClient.invalidateQueries({ queryKey: ['top-voted-quotes'] });
+      
       setTimeout(() => {
         navigate("/");
       }, 1000);
@@ -168,7 +170,6 @@ const EditQuotePage: React.FC = () => {
     }
   };
 
-  // Loading state
   if (isLoadingQuote) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900 flex items-center justify-center">
@@ -180,7 +181,6 @@ const EditQuotePage: React.FC = () => {
     );
   }
 
-  // Error state
   if (isError) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900 flex items-center justify-center">
@@ -210,7 +210,6 @@ const EditQuotePage: React.FC = () => {
     );
   }
 
-  // ถ้าไม่มี quote หรือ ID ไม่ถูกต้อง
   if (!quote || !id) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900 flex items-center justify-center">
